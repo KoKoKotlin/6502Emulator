@@ -201,4 +201,8 @@ class CPU {
     fun singleStep() {
         if(!halt) decodeNextInstruction()
     }
+
+    fun setDelay(delay: Long) {
+        clock.delay = delay
+    }
 }

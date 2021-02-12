@@ -51,7 +51,7 @@ fun repl() {
                 }
                 "set" -> {
                     if(options.size < 3) {
-                        printError("mem needs 2 args: mem start len")
+                        printError("mem needs 2 args: set start len")
                         continue
                     }
 
@@ -62,6 +62,19 @@ fun repl() {
                         mem.write(addr, value)
                     } catch (e: Exception) {
                         printError("ERROR in mem: ${e.message}")
+                    }
+                }
+                "delay" -> {
+                    if(options.size < 2) {
+                        printError("delay needs 1 args: delay delayTime")
+                        continue
+                    }
+
+                    try {
+                        val newDelay = options[1].toLong(10)
+                        cpu.setDelay(newDelay)
+                    } catch (e: Exception) {
+                        printError("ERROR in delay: ${e.message}")
                     }
                 }
                 "init" -> cpu.resetCPU()

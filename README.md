@@ -23,6 +23,7 @@ status | Prints a human readable form of the status register.
 load file | Loads a 6502 binary into memory.
 mem start len | Prints len bytes from memory beginning at start.
 set addr value | Writes value to memory at address addr.
+delay delayTime | Sets the delay for one cpu cycle in ms.
 r | Init cpu and run the program.
 init | Init the cpu.
 s | Execute a single instruction.
