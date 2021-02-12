@@ -586,7 +586,7 @@ class PHP :
         Instruction(
                 "php",
                 {   cpu, _ ->
-                    cpu.pushStack(cpu.status.toByte())
+                    cpu.pushStack(cpu.status)
                 },
                 Implied,
                 0x00U
