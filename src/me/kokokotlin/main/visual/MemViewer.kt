@@ -2,8 +2,6 @@ package me.kokokotlin.main.visual
 
 import me.kokokotlin.main.*
 import me.kokokotlin.main.cpu.CPU
-import me.kokokotlin.main.drawing.Drawable
-import me.kokokotlin.main.drawing.WindowHandler
 import me.kokokotlin.main.geometry.Rectangle
 import me.kokokotlin.main.mem.MEM_SIZE
 import java.awt.Color
@@ -12,11 +10,8 @@ import java.awt.Graphics
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.lang.Exception
-import javax.swing.JOptionPane
 
-class MemViewer : Drawable {
-    private val width = 1280
-    private val height = 720
+class MemViewer : InfoWindow("MemViewer", 1280, 720) {
     private val fontSize = 24
 
     private var startAddr = 0
@@ -27,7 +22,6 @@ class MemViewer : Drawable {
     private var rows = 0
     private var memValuePerRow = 0
 
-    private val window = WindowHandler(width, height, "Memory View")
 
     init {
         window.drawables.add(this)
@@ -44,18 +38,7 @@ class MemViewer : Drawable {
                 if (e == null) return
 
                 when (e.keyCode) {
-                    KeyEvent.VK_A -> {
-                        val res = JOptionPane.showInputDialog(
-                            "Set new start address",
-                            "0"
-                        )
-
-                        try {
-                            startAddr = res.toInt(16) / memValuePerRow
-                        } catch (e: Exception) {
-                            printError("Couldn't parse int from input: $res")
-                        }
-                    }
+                    KeyEvent.VK_A -> getNumInput("New start addr", 16, "0")?.also { startAddr = it / memValuePerRow }
                 }
             }
         })

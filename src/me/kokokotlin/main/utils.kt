@@ -1,5 +1,7 @@
 package me.kokokotlin.main
 
+import java.lang.Exception
+import javax.swing.JOptionPane
 import kotlin.experimental.and
 import kotlin.experimental.or
 
@@ -92,4 +94,17 @@ fun Byte.not(): Byte {
             res = res or (0x1 shl i).toByte()
 
     return res
+}
+
+// input Utils
+fun getNumInput(msg: String, radix: Int, startValue: String): Int? {
+    val res = JOptionPane.showInputDialog(msg, startValue)
+
+    try {
+        return res.toInt(radix)
+    } catch (e: Exception) {
+        printError("Couldn't parse int from input: $res")
+    }
+
+    return null
 }

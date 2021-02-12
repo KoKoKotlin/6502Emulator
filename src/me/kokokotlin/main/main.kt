@@ -4,6 +4,7 @@ import me.kokokotlin.main.asm.loadBytesFromPath
 import me.kokokotlin.main.cpu.CPU
 import me.kokokotlin.main.mem.Memory
 import me.kokokotlin.main.visual.MemViewer
+import me.kokokotlin.main.visual.VRamView
 import java.lang.Exception
 import java.nio.file.Paths
 
@@ -98,7 +99,8 @@ fun repl() {
                     mem.write(0U, data)
                     println("Written ${data.size} bytes to memory!")
                 }
-                "visual" -> MemViewer()
+                "memview" -> MemViewer()
+                "vram" -> VRamView()
                 else -> {
                     printError("Command $input does not exists!")
                 }

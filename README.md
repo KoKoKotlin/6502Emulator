@@ -26,5 +26,6 @@ set addr value | Writes value to memory at address addr.
 r | Init cpu and run the program.
 init | Init the cpu.
 s | Execute a single instruction.
-visual | Opens a register memory view window.
+memview | Opens a register memory view window.
+vram | Opens a view into memory which interprets bytes as color information.
 q | Quit program.
