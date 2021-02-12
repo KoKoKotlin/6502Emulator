@@ -15,11 +15,6 @@ class Memory {
         storage[addr.toInt()] = value
     }
 
-    fun read(addr: Byte) = storage[addr.toInt()]
-    fun write(addr: Byte, value: Byte) {
-        storage[addr.toInt()] = value
-    }
-
     fun write(startAddr: Word, byteArray: ByteArray) {
         byteArray.copyInto(storage, startAddr.toInt())
     }
