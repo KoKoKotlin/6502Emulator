@@ -114,6 +114,7 @@ fun repl() {
                 }
                 "memview" -> MemViewer()
                 "vram" -> VRamView()
+                "debugOn" -> cpu.debugMode = true
                 else -> {
                     printError("Command $input does not exists!")
                 }

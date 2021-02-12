@@ -105,6 +105,21 @@ class BCC(param: Word) :
                 param
         )
 
+// Branch on Carry Set
+// Cycles +1 when taken and +1 when page crossed
+class BCS(param: Word) :
+    Branch(
+        "bcc",
+        { cpu, bcs_ ->
+            if (cpu.getFlag(CPU.Flags.CARRY) == 1.toByte()) {
+                cpu.pc = calcBranchAddr(bcs_.addressMode.read(param))
+                val bcs = bcs_ as? Branch ?: throw Exception("Not a branch instruction!")
+                bcs.taken = true
+            }
+        },
+        param
+    )
+
 // Branch on Result Zero
 // Cycles +1 when taken and +1 when page crossed
 class BEQ(param: Word) :
@@ -535,7 +550,7 @@ class LSR(addressMode: AddressMode, param: Word) :
                 {   cpu, _ ->
                     val memValue = addressMode.read(param)
 
-                    cpu.setFlag(CPU.Flags.CARRY, memValue and 1 == 1.toByte())
+                    cpu.setFlag(CPU.Flags.CARRY, memValue and 0x1 == 1.toByte())
 
                     addressMode.write(param, (memValue.toInt() shr 1).toByte())
                 },

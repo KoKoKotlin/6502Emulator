@@ -7,9 +7,9 @@ import java.awt.Graphics
 import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 
-class VRamView : InfoWindow("VRamViewer", 1000, 1000) {
+class VRamView : InfoWindow("VRamViewer", 1280, 1280) {
     private var startAddr = 0
-    private var cellSize = 10
+    private var cellSize = 80
 
     init {
         window.drawables.add(this)

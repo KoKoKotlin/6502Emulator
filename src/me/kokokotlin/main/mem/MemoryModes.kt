@@ -5,8 +5,8 @@ import me.kokokotlin.main.*
 abstract class AddressMode() {
     abstract fun read(param: Word): Byte
 
-    open fun write(addr: Word, value: Byte) {
-        mem.write(addr, value)
+    open fun write(param: Word, value: Byte) {
+        mem.write(getAddr(param), value)
     }
 
     abstract fun getAddr(param: Word): Word
@@ -18,12 +18,12 @@ abstract class MemMode() : AddressMode() {
 }
 
 object ZeroPageIndexedX: MemMode() {
-    override fun getAddr(param: Word) = (param wordPlus cpu.X) wordMod 0xFF
+    override fun getAddr(param: Word) = (param wordPlus cpu.X) wordMod 0x100
     override fun pageCrossed(param: Word, isWrite: Boolean) = false
 }
 
 object ZeroPageIndexedY: MemMode() {
-    override fun getAddr(param: Word) = (param wordPlus cpu.Y) wordMod 0xFF
+    override fun getAddr(param: Word) = (param wordPlus cpu.Y) wordMod 0x100
     override fun pageCrossed(param: Word, isWrite: Boolean) = false
 }
 
@@ -60,7 +60,7 @@ object IndexedIndirectX : MemMode() {
 object IndexedIndirectY : MemMode() {
     override fun getAddr(param: Word) =
                     mem.read(param).toWord() wordPlus
-                    mem.read((param wordPlus 1) wordMod 256) wordTimes cpu.Y wordPlus
+                    mem.read((param wordPlus 1) wordMod 0x100) wordTimes cpu.Y wordPlus
                     cpu.Y
 
     override fun pageCrossed(param: Word, isWrite: Boolean) =

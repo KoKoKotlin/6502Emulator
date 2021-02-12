@@ -27,6 +27,7 @@ delay delayTime | Sets the delay for one cpu cycle in ms.
 r | Init cpu and run the program.
 init | Init the cpu.
 s | Execute a single instruction.
+debugOn | Activates verbose debug output.
 memview | Opens a register memory view window.
 vram | Opens a view into memory which interprets bytes as color information.
 q | Quit program.

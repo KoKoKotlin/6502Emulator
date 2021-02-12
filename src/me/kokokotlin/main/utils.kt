@@ -79,8 +79,7 @@ fun isOverflowedMinus(a: Byte, b: Byte, res: Byte) =
 operator fun Byte.get(index: Int) = (this.toInt() shr index and 0x1).toByte()
 
 fun Byte.setBit(index: Int, value: Boolean) =
-    if(this[index].isZero() && !value
-        || !this[index].isZero() && value)
+    if(this[index].isZero() && !value || !this[index].isZero() && value)
         this
     else if(value)
         this or (0x1 shl index).toByte()

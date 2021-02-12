@@ -50,6 +50,8 @@ class CPU {
 
     private val clock = Clock()
 
+    var debugMode = false
+
     fun getFlag(flag: Flags) = status[flag.place]
     fun setFlag(flag: Flags, value: Boolean) {
         status = status.setBit(flag.place, value)
@@ -117,6 +119,7 @@ class CPU {
             "and" -> AND(addrMode, param)
             "asl" -> ASL(addrMode, param)
             "bcc" -> BCC(param)
+            "bcs" -> BCS(param)
             "beq" -> BEQ(param)
             "bit" -> BIT(addrMode, param)
             "bmi" -> BMI(param)
@@ -172,10 +175,10 @@ class CPU {
         }
 
         instruction.operation(cpu, instruction)
+        if(debugMode)
+            debugPrint(opcode.toUByte(), instructionName, addrMode.javaClass.toString(), param, paramLen!!)
 
-        debugPrint(opcode.toUByte(), instructionName, addrMode.javaClass.toString(), param, paramLen!!)
-
-        val isWrite: Boolean = opcode in setOf("sta", "stx", "sty")
+        val isWrite: Boolean = instructionName in setOf("sta", "stx", "sty", "php", "pha")
         val branchTaken = when(instruction) {
             is Branch -> instruction.taken
             else -> false
@@ -189,7 +192,8 @@ class CPU {
         while (!clock.instructionFinished())
             clock.tickOnce()
 
-        pc++
+        if(instructionName !in arrayOf("jmp", "jsr"))
+            pc++
     }
 
     fun run() {
