@@ -186,7 +186,8 @@ class CPU {
 
         clock.instructionDuration = cycles
 
-        while (!clock.instructionFinished()) clock.tickOnce()
+        while (!clock.instructionFinished())
+            clock.tickOnce()
 
         pc++
     }
