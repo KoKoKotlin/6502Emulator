@@ -8,7 +8,7 @@ class Clock {
     var delay: Long
         get() = _delay
     set(value) {
-        _delay = delay
+        _delay = value
     }
 
     fun tickOnce() {
