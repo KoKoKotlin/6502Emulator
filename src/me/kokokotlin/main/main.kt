@@ -19,11 +19,17 @@ fun printError(msg: String) {
     println("ERROR: $msg")
 }
 
+fun writeProgram(data: ByteArray) {
+    mem.reset()
+    mem.write(0U, data)
+}
+
 fun repl() {
+    var lastProgram: ByteArray = byteArrayOf()
+
     while(true) {
         print("$>")
         val input = readLine()
-
 
         if (input != "") {
             val options = input!!.split(" ")
@@ -78,7 +84,11 @@ fun repl() {
                     }
                 }
                 "init" -> cpu.resetCPU()
-                "r" -> cpu.run()
+                "r" -> {
+                    writeProgram(lastProgram)
+                    cpu.cpuStart()
+                }
+                "stop" -> cpu.forceStop()
                 "s" -> cpu.singleStep()
                 "a" -> println("${cpu.A.repr()} (= ${cpu.A})")
                 "x" -> println("${cpu.X.repr()} (= ${cpu.X})")
@@ -109,9 +119,7 @@ fun repl() {
                         continue
                     }
 
-                    mem.reset()
-                    mem.write(0U, data)
-                    println("Written ${data.size} bytes to memory!")
+                    lastProgram = data
                 }
                 "memview" -> MemViewer()
                 "vram" -> VRamView()

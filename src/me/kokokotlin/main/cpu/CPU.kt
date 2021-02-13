@@ -25,7 +25,7 @@ import java.lang.UnsupportedOperationException
     src: https://wiki.nesdev.com/w/index.php/Status_flags
  */
 
-class CPU {
+class CPU : Runnable {
 
     enum class Flags(val place: Int) {
         CARRY(0),
@@ -47,8 +47,10 @@ class CPU {
     var status: Byte = 0   // status flags |N|V|s|s|D|I|Z|C|
 
     var halt = false
+    private var _forceStop = false
 
     private val clock = Clock()
+    private var execThread = Thread(this)
 
     var debugMode = false
 
@@ -196,11 +198,19 @@ class CPU {
             pc++
     }
 
-    fun run() {
+    override fun run() {
         resetCPU()
-        while(!halt) {
+        while(!halt && !_forceStop) {
             decodeNextInstruction()
         }
+
+        _forceStop = false
+    }
+
+    fun cpuStart() {
+        execThread = Thread(this)
+        execThread.isDaemon = true
+        execThread.start()
     }
 
     fun singleStep() {
@@ -209,5 +219,9 @@ class CPU {
 
     fun setDelay(delay: Long) {
         clock.delay = delay
+    }
+
+    fun forceStop() {
+        _forceStop = true
     }
 }

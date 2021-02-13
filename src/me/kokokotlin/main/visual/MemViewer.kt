@@ -11,7 +11,7 @@ import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import java.lang.Exception
 
-class MemViewer : InfoWindow("MemViewer", 1280, 720) {
+class MemViewer : InfoWindow("MemViewer", 1065, 720) {
     private val fontSize = 24
 
     private var startAddr = 0
