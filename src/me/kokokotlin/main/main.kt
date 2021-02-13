@@ -109,6 +109,7 @@ fun repl() {
                         continue
                     }
 
+                    mem.reset()
                     mem.write(0U, data)
                     println("Written ${data.size} bytes to memory!")
                 }
