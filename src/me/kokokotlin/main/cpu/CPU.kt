@@ -187,7 +187,7 @@ class CPU : Runnable {
         }
 
         val baseCycles = durations[addrMode] ?: throw IllegalStateException("Couldn't find addrMode!")
-        val cycles = baseCycles + if(addrMode.pageCrossed(param, isWrite)) 1U else 0U + if(branchTaken) 1U else 0U
+        val cycles = baseCycles + if(addrMode.additionalCycle(param, isWrite)) 1U else 0U + if(branchTaken) 1U else 0U
 
         clock.instructionDuration = cycles
 
