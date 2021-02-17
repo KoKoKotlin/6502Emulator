@@ -40,7 +40,8 @@ class ADC(addressMode: AddressMode, param: Word)
             cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
             cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
             cpu.setFlag(CPU.Flags.CARRY, hasCarried(byteArrayOf(cpu.A, memValue, cpu.getFlag(CPU.Flags.CARRY))))
-            cpu.setFlag(CPU.Flags.OVERFLOW, isOverflowedMinus(cpu.A, memValue, resByte))
+            cpu.setFlag(CPU.Flags.OVERFLOW, isOverflowedPlus(cpu.A, memValue)
+                    || isOverflowedPlus(cpu.A bytePlus memValue, cpu.getFlag(CPU.Flags.CARRY)))
 
             cpu.A = resByte
         },
@@ -708,7 +709,8 @@ class SBC(addressMode: AddressMode, param: Word) :
                     cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
                     cpu.setFlag(CPU.Flags.CARRY, cpu.A > memValue ||
                             cpu.A == memValue && cpu.getFlag(CPU.Flags.CARRY) == 1.toByte())
-                    cpu.setFlag(CPU.Flags.OVERFLOW, isOverflowedMinus(cpu.A, memValue, resByte))
+                    cpu.setFlag(CPU.Flags.OVERFLOW, isOverflowedMinus(cpu.A, memValue) ||
+                        isOverflowedMinus(cpu.A bytePlus memValue, (cpu.getFlag(CPU.Flags.CARRY) - 1).toByte()))
 
                     cpu.A = resByte
                 },

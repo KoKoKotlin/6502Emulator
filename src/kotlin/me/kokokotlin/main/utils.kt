@@ -76,15 +76,12 @@ fun hasCarried(bytes: ByteArray): Boolean {
     return res.toInt().hasCarried()
 }
 
+fun isOverflowedPlus(a: Byte, b: Byte) =
+    a.toInt() + b.toInt() !in -128..127
 
-fun isOverflowedPlus(a: Byte, b: Byte, res: Byte) =
-        a.isNeg() && b.isNeg() && !res.isNeg() ||
-        !a.isNeg() && !b.isNeg() && res.isNeg()
 
-fun isOverflowedMinus(a: Byte, b: Byte, res: Byte) =
-    !a.isNeg() && b.isNeg() && res.isNeg() ||
-    a.isNeg() && !b.isNeg() && !res.isNeg()
-
+fun isOverflowedMinus(a: Byte, b: Byte) =
+    a.toInt() - b.toInt() !in -128..127
 
 operator fun Byte.get(index: Int) = (this.toInt() shr index and 0x1).toByte()
 
