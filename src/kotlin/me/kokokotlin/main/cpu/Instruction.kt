@@ -36,11 +36,10 @@ class ADC(addressMode: AddressMode, param: Word)
         { cpu, _ ->
             val memValue = addressMode.read(param)
             val resByte = cpu.A bytePlus memValue bytePlus cpu.getFlag(CPU.Flags.CARRY)
-            val resInt = cpu.A + memValue + cpu.getFlag(CPU.Flags.CARRY)
 
             cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
             cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
-            cpu.setFlag(CPU.Flags.CARRY, resInt.hasCarried())
+            cpu.setFlag(CPU.Flags.CARRY, hasCarried(byteArrayOf(cpu.A, memValue, cpu.getFlag(CPU.Flags.CARRY))))
             cpu.setFlag(CPU.Flags.OVERFLOW, isOverflowedMinus(cpu.A, memValue, resByte))
 
             cpu.A = resByte
@@ -294,11 +293,10 @@ class CMP(addressMode: AddressMode, param: Word)
         { cpu, _ ->
             val memValue = addressMode.read(param)
             val resByte = cpu.A byteMinus memValue
-            val resInt = cpu.A - memValue
 
             cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
             cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
-            cpu.setFlag(CPU.Flags.CARRY, resInt.hasCarried())
+            cpu.setFlag(CPU.Flags.CARRY, hasCarried(cpu.A, memValue.not() bytePlus 1))
         },
         addressMode,
         param
@@ -312,11 +310,10 @@ class CPX(addressMode: AddressMode, param: Word) :
                 {   cpu, _ ->
                     val memValue = addressMode.read(param)
                     val resByte = cpu.X byteMinus memValue
-                    val resInt = cpu.X - memValue
 
                     cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
                     cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
-                    cpu.setFlag(CPU.Flags.CARRY, resInt.hasCarried())
+                    cpu.setFlag(CPU.Flags.CARRY, hasCarried(cpu.X, memValue.not() bytePlus 1))
                 },
                 addressMode,
                 param
@@ -334,7 +331,7 @@ class CPY(addressMode: AddressMode, param: Word) :
 
                     cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
                     cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
-                    cpu.setFlag(CPU.Flags.CARRY, resInt.hasCarried())
+                    cpu.setFlag(CPU.Flags.CARRY, hasCarried(cpu.Y, memValue.not() bytePlus 1))
                 },
                 addressMode,
                 param

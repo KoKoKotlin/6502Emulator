@@ -65,7 +65,17 @@ fun Byte.isNeg() = this < 0
 fun Byte.isZero() = this == 0.toByte()
 // **********************************************
 
-fun Int.hasCarried() = (this shr 8 and 0x1) == 1
+fun Int.hasCarried() = this ushr 8 and 0x1 == 1
+
+fun hasCarried(b1: Byte, b2: Byte) = hasCarried(byteArrayOf(b1, b2))
+
+fun hasCarried(bytes: ByteArray): Boolean {
+    var res: UInt = 0U
+    for(byte in bytes) res += byte.toUByte()
+
+    return res.toInt().hasCarried()
+}
+
 
 fun isOverflowedPlus(a: Byte, b: Byte, res: Byte) =
         a.isNeg() && b.isNeg() && !res.isNeg() ||
