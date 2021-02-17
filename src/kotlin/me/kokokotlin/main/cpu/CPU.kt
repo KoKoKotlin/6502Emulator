@@ -91,7 +91,7 @@ class CPU : Runnable {
         return memValue
     }
 
-    fun decodeNextInstruction() {
+    private fun decodeNextInstruction() {
         val opcode = mem.read(pc)
 
         val addrMode = memoryModeFromOpcode(opcode.toUByte())
