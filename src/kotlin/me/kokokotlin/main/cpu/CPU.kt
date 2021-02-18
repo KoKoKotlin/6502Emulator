@@ -79,14 +79,16 @@ class CPU : Runnable {
     fun pushStack(value: Byte) {
         if(sp == 0x00.toByte()) throw IllegalStateException("Stackoverflow!") // FIXME
 
-        mem.write(0x100.toWord() wordPlus sp, value)
+        val memAddr = (0x100.toWord() + sp.toUByte()).toWord()
+        mem.write(memAddr, value)
         sp--
     }
 
     fun popStack(): Byte {
         if(sp == 0xFF.toByte()) throw IllegalStateException("Stackunderflow!") // FIXME
 
-        val memValue = mem.read(0x100.toWord() wordPlus sp)
+        val memAddr = (0x100.toWord() + sp.toUByte()).toWord()
+        val memValue = mem.read(memAddr)
         sp++
         return memValue
     }
