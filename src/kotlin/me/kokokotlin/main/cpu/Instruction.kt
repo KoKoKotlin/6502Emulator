@@ -5,6 +5,7 @@ import me.kokokotlin.main.mem.*
 import java.lang.Exception
 import kotlin.experimental.and
 import kotlin.experimental.or
+import kotlin.experimental.xor
 
 open class Instruction(val name: String,
                        val operation: (CPU, Instruction) -> Unit,
@@ -328,7 +329,6 @@ class CPY(addressMode: AddressMode, param: Word) :
                 {   cpu, _ ->
                     val memValue = addressMode.read(param)
                     val resByte = cpu.Y byteMinus memValue
-                    val resInt = cpu.Y - memValue
 
                     cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
                     cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
@@ -398,7 +398,7 @@ class EOR(addressMode: AddressMode, param: Word) :
                 "eor",
                 {   cpu, _ ->
                     val memValue = addressMode.read(param)
-                    val resByte = cpu.A and memValue
+                    val resByte = cpu.A xor memValue
 
                     cpu.setFlag(CPU.Flags.NEGATIVE, resByte.isNeg())
                     cpu.setFlag(CPU.Flags.ZERO, resByte.isZero())
